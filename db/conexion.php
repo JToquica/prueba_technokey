@@ -6,9 +6,14 @@ class Conexion {
         $username = 'postgres';
         $password = '1234';
 
-        $conexion = new PDO($dsn, $username, $password);
-        $conexion -> exec("set names utf8");
-        return $conexion;
+        try {
+            $conexion = new PDO($dsn, $username, $password);
+            $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $conexion;
+        } catch (PDOException $e) {
+            echo 'Error al conectarse a la base de datos: '.$e->getMessage();
+        }
+
     }
 }
 
